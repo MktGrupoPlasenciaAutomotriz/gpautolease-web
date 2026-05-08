@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Card } from '@/components/ui/Card';
-import { Pill } from '@/components/ui/Pill';
+import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Button } from '@/components/ui/Button';
 import {
   IconArrowRight,
@@ -69,14 +69,22 @@ const STEPS = [
 export default function ComoFunciona() {
   return (
     <div className="bg-white">
-      <section className="bg-gradient-to-br from-bg-muted via-white to-forest-50/40 py-16 md:py-24">
-        <div className="container-tight max-w-4xl">
-          <Pill variant="lime">Proceso</Pill>
-          <h1 className="mt-4 font-display text-4xl font-semibold tracking-tight text-ink-900 md:text-6xl leading-[1.05]">
+      <section className="relative bg-white py-16 md:py-24 border-b border-ink-200/70 overflow-hidden">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-[0.04] [background-image:linear-gradient(to_right,#1d1d1b_1px,transparent_1px),linear-gradient(to_bottom,#1d1d1b_1px,transparent_1px)] [background-size:80px_80px]"
+        />
+        <div className="container-tight relative max-w-4xl">
+          <Eyebrow marker="—">Proceso</Eyebrow>
+          <h1 className="mt-6 font-display font-semibold tracking-tight text-ink-900 text-fluid-h1 leading-[1.0]">
             De cotización a llaves en{' '}
-            <span className="text-forest">4 pasos</span>
+            <span className="relative inline">
+              <span className="relative z-10 text-forest">4 pasos</span>
+              <span aria-hidden className="absolute inset-x-0 bottom-1 h-[0.18em] bg-lime-300/70 -z-0" />
+            </span>
+            <span className="text-ink-900">.</span>
           </h1>
-          <p className="mt-6 max-w-2xl text-xl leading-relaxed text-ink-600">
+          <p className="mt-7 max-w-2xl text-xl leading-relaxed text-ink-700">
             Sin vueltas, sin papeleo innecesario, sin presión de venta. Te mostramos
             todo el proceso antes de empezar.
           </p>

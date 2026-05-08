@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card } from '@/components/ui/Card';
-import { Pill } from '@/components/ui/Pill';
+import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { IconArrowRight, IconArrowLeft, IconCheck, IconUpload, IconClock } from '@/components/ui/Icon';
@@ -49,7 +49,7 @@ export default function Tramite() {
         <div className="mt-8 animate-fade-in">
           {step === 1 && (
             <Card variant="default" padded="lg">
-              <Pill variant="forest">Trámite paso 1 de 3</Pill>
+              <Eyebrow marker="01">Trámite · paso 1 de 3</Eyebrow>
               <h1 className="mt-4 font-display text-3xl font-semibold tracking-tight text-ink-900 md:text-4xl">
                 Confirma tus datos
               </h1>
@@ -109,7 +109,7 @@ export default function Tramite() {
 
           {step === 2 && (
             <Card variant="default" padded="lg">
-              <Pill variant="forest">Trámite paso 2 de 3</Pill>
+              <Eyebrow marker="02">Trámite · paso 2 de 3</Eyebrow>
               <h1 className="mt-4 font-display text-3xl font-semibold tracking-tight text-ink-900 md:text-4xl">
                 Sube tus documentos
               </h1>
@@ -150,7 +150,7 @@ export default function Tramite() {
               <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-forest-50 text-forest">
                 <IconCheck size={32} />
               </div>
-              <Pill variant="lime">Trámite enviado</Pill>
+              <Eyebrow marker="✓" variant="lime">Trámite enviado</Eyebrow>
               <h1 className="mt-4 font-display text-3xl font-semibold tracking-tight text-ink-900 md:text-5xl">
                 Tu folio:{' '}
                 <span className="num-display text-forest">{folio}</span>

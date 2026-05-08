@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Pill } from '@/components/ui/Pill';
+import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Button } from '@/components/ui/Button';
 import { IconArrowRight, IconWhatsApp, IconChevronDown } from '@/components/ui/Icon';
 import { cn } from '@/lib/cn';
@@ -109,13 +109,13 @@ export default function Preguntas() {
   };
 
   return (
-    <div className="bg-bg-subtle min-h-[calc(100vh-5rem)] py-12 md:py-20">
+    <div className="bg-bg-subtle min-h-[calc(100vh-5rem)] py-14 md:py-20">
       <div className="container-tight max-w-4xl">
-        <Pill variant="forest">Soporte</Pill>
-        <h1 className="mt-4 font-display text-4xl font-semibold tracking-tight text-ink-900 md:text-5xl">
+        <Eyebrow marker="?">Soporte</Eyebrow>
+        <h1 className="mt-6 font-display font-semibold tracking-tight text-ink-900 text-fluid-h1 leading-[1.02]">
           Preguntas frecuentes
         </h1>
-        <p className="mt-4 text-lg text-ink-600">
+        <p className="mt-5 text-lg text-ink-600 leading-relaxed">
           Si la tuya no está aquí, mándala por WhatsApp. Respondemos en menos de 30 minutos en horario de oficina.
         </p>
 

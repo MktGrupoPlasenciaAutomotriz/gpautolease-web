@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card } from '@/components/ui/Card';
-import { Pill } from '@/components/ui/Pill';
+import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Button } from '@/components/ui/Button';
 import { IconArrowRight, IconWhatsApp } from '@/components/ui/Icon';
 import { MARCAS, totalModelos, type Modelo } from '@/data/marcas';
 import { fmtMXN } from '@/lib/format';
 import { cn } from '@/lib/cn';
+
+const BASE = import.meta.env.BASE_URL ?? '/';
 
 const TIPOS: { value: Modelo['tipo'] | 'all'; label: string }[] = [
   { value: 'all', label: 'Todas' },
@@ -30,14 +32,14 @@ export default function Marcas() {
   })).filter((m) => m.modelos.length > 0);
 
   return (
-    <div className="bg-bg-subtle min-h-[calc(100vh-5rem)] py-12 md:py-20">
+    <div className="bg-bg-subtle min-h-[calc(100vh-5rem)] py-14 md:py-20">
       <div className="container-tight">
         <div className="max-w-3xl">
-          <Pill variant="forest">Catálogo</Pill>
-          <h1 className="mt-4 font-display text-4xl font-semibold tracking-tight text-ink-900 md:text-5xl">
+          <Eyebrow marker="—">Catálogo</Eyebrow>
+          <h1 className="mt-6 font-display font-semibold tracking-tight text-ink-900 text-fluid-h1 leading-[1.02]">
             Las marcas que arriendas con GP Autolease
           </h1>
-          <p className="mt-4 text-lg text-ink-600">
+          <p className="mt-5 text-lg text-ink-600 leading-relaxed">
             {MARCAS.length} marcas activas, +{totalModelos} modelos. Si no ves la marca o
             modelo que buscas, mándanos un WhatsApp y la conseguimos.
           </p>
@@ -76,16 +78,16 @@ export default function Marcas() {
         <div className="mt-10 space-y-12">
           {filteredMarcas.map((m) => (
             <section key={m.slug}>
-              <div className="mb-5 flex items-end justify-between">
-                <div>
-                  <span
-                    className="font-display text-2xl font-semibold tracking-tight"
-                    style={{ color: m.logoColor }}
-                  >
-                    {m.nombre}
-                  </span>
-                  <span className="ml-3 text-sm text-ink-500">
-                    {m.modelos.length} modelos disponibles
+              <div className="mb-5 flex items-end justify-between gap-4">
+                <div className="flex items-baseline gap-4">
+                  <img
+                    src={`${BASE}img/marcas/${m.slug}.svg`}
+                    alt={m.nombre}
+                    className="h-7 w-auto max-w-[140px] object-contain [filter:grayscale(1)_brightness(0.4)] opacity-90"
+                    loading="lazy"
+                  />
+                  <span className="font-mono text-xs uppercase tracking-[0.14em] text-ink-500">
+                    {m.modelos.length} modelos
                   </span>
                 </div>
                 <Link

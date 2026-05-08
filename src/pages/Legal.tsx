@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { Pill } from '@/components/ui/Pill';
+import { Eyebrow } from '@/components/ui/Eyebrow';
 
 const COPY: Record<string, { eyebrow: string; title: string; body: React.ReactNode }> = {
   '/aviso-de-privacidad': {
@@ -97,9 +97,11 @@ export default function Legal() {
   return (
     <div className="bg-white py-16 md:py-24">
       <div className="container-prose">
-        <Link to="/" className="text-sm text-ink-500 hover:text-forest">← Inicio</Link>
-        <Pill variant="forest" className="mt-6">{data.eyebrow}</Pill>
-        <h1 className="mt-4 font-display text-4xl font-semibold tracking-tight text-ink-900 md:text-5xl">
+        <Link to="/" className="text-sm text-ink-500 hover:text-forest transition-colors">← Inicio</Link>
+        <div className="mt-8">
+          <Eyebrow marker="§">{data.eyebrow}</Eyebrow>
+        </div>
+        <h1 className="mt-6 font-display font-semibold tracking-tight text-ink-900 text-fluid-h1 leading-[1.02]">
           {data.title}
         </h1>
         <div className="prose prose-lg mt-8 max-w-none text-ink-700 leading-relaxed [&_h3]:font-display [&_h3]:text-2xl [&_h3]:font-semibold [&_h3]:tracking-tight [&_h3]:text-ink-900 [&_h3]:mt-8 [&_h3]:mb-3 [&_p]:mt-4">

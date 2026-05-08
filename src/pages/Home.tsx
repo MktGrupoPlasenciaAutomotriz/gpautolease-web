@@ -1,10 +1,8 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { HeroCalculator } from '@/components/calc/HeroCalculator';
-import { Pill } from '@/components/ui/Pill';
 import { Button } from '@/components/ui/Button';
 import { Reveal } from '@/components/ui/Reveal';
-import { Tooltip } from '@/components/ui/Tooltip';
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { DotGrid } from '@/components/ui/BrandPattern';
 import { BarPair, HairlineDivider, Sparkline } from '@/components/ui/DataViz';
@@ -18,7 +16,6 @@ import { fmtMXN } from '@/lib/format';
 import { cn } from '@/lib/cn';
 
 const BASE = import.meta.env.BASE_URL ?? '/';
-const HERO_BG = `${BASE}img/hero-abstract.webp`;
 
 export default function Home() {
   return (
@@ -37,20 +34,15 @@ export default function Home() {
 
 function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-white pt-12 pb-20 md:pt-16 md:pb-24">
-      <img
-        src={HERO_BG}
-        alt=""
-        aria-hidden
-        className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.10] mix-blend-multiply"
-        loading="eager"
-        decoding="async"
-      />
-
-      {/* Subtle grid baseline */}
+    <section className="relative overflow-hidden bg-white pt-10 pb-16 md:pt-16 md:pb-24">
+      {/* Single restrained grid baseline — no gradient blob noise */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.03] [background-image:linear-gradient(to_right,#1d1d1b_1px,transparent_1px),linear-gradient(to_bottom,#1d1d1b_1px,transparent_1px)] [background-size:64px_64px]"
+        className="pointer-events-none absolute inset-0 opacity-[0.04] [background-image:linear-gradient(to_right,#1d1d1b_1px,transparent_1px),linear-gradient(to_bottom,#1d1d1b_1px,transparent_1px)] [background-size:80px_80px]"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-40 -right-40 h-[36rem] w-[36rem] rounded-full bg-lime-200/25 blur-[120px]"
       />
 
       <div className="container-tight relative grid gap-10 lg:grid-cols-12 lg:gap-14 items-center">
@@ -60,31 +52,26 @@ function HeroSection() {
           </Reveal>
 
           <Reveal direction="up" delay={80}>
-            <h1 className="mt-6 font-display font-semibold text-[clamp(2.75rem,5.6vw+1rem,6rem)] leading-[0.98] tracking-[-0.038em] text-ink-900">
-              Tu próximo auto puede{' '}
-              <span className="relative inline-block whitespace-nowrap">
-                <span className="relative z-10 text-forest">pagarte impuestos.</span>
-                <span aria-hidden className="absolute inset-x-0 bottom-1.5 h-3 bg-lime-300/70 -z-0" />
+            <h1 className="mt-6 font-display font-semibold text-[clamp(2.5rem,5.4vw+0.75rem,5.75rem)] leading-[1.0] tracking-[-0.04em] text-ink-900 [text-wrap:balance]">
+              Tu próximo auto{' '}
+              <span className="relative inline">
+                <span className="relative z-10 text-forest">paga tus impuestos</span>
+                <span aria-hidden className="absolute inset-x-0 bottom-1 h-[0.18em] bg-lime-300/70 -z-0" />
               </span>
+              <span className="text-ink-900">.</span>
             </h1>
           </Reveal>
 
           <Reveal direction="up" delay={160}>
-            <p className="mt-7 max-w-xl text-lg leading-relaxed text-ink-700 md:text-xl">
-              Arrenda en lugar de comprar y{' '}
-              <Tooltip content="Como PFAE puedes deducir el 100% de la mensualidad de arrendamiento como gasto. Si facturas $1.5M al año, deduces hasta $170K solo del auto.">
-                deduce el 100%
-              </Tooltip>
-              ,{' '}
-              <Tooltip content="El 16% de IVA de cada mensualidad lo acreditas contra el IVA que cobras a clientes. Es flujo de caja directo.">
-                acredita el IVA cada mes
-              </Tooltip>{' '}
-              y conserva tu capital. Sin letra chica.
+            <p className="mt-7 max-w-[34rem] text-lg leading-[1.55] text-ink-700 md:text-xl">
+              Arrenda en lugar de comprar.{' '}
+              <span className="text-ink-900 font-semibold">Deduce el 100%</span>,{' '}
+              acredita el IVA cada mes y mantén tu capital trabajando en tu negocio.
             </p>
           </Reveal>
 
           <Reveal direction="up" delay={280}>
-            <div className="mt-10 flex flex-wrap gap-3">
+            <div className="mt-9 flex flex-wrap items-center gap-3">
               <Link to="/cotizar">
                 <Button variant="primary" size="xl" iconRight={<IconArrowRight />}>
                   Cotizar mi auto
@@ -99,6 +86,10 @@ function HeroSection() {
                   WhatsApp
                 </Button>
               </a>
+              <span className="ml-2 hidden md:inline-flex items-center gap-1.5 text-xs font-medium text-ink-500">
+                <span className="inline-block h-1 w-1 rounded-full bg-lime-500 animate-pulse" />
+                Aprobación en menos de 48 hrs
+              </span>
             </div>
           </Reveal>
         </div>
@@ -381,73 +372,130 @@ const TESTIMONIALS = [
 ];
 
 function TestimoniosSection() {
+  const [featured, ...rest] = TESTIMONIALS;
   return (
     <section className="relative overflow-hidden bg-forest-950 py-24 md:py-32 text-white">
       <DotGrid
-        cols={26}
-        rows={10}
-        gap={24}
-        size={2.5}
-        fade="left"
-        color="#8EBF24"
-        className="absolute -top-8 right-0 opacity-25"
-      />
-      <DotGrid
-        cols={20}
-        rows={8}
-        gap={20}
+        cols={32}
+        rows={14}
+        gap={22}
         size={2}
-        fade="right"
+        fade="radial"
         color="#8EBF24"
-        className="absolute bottom-0 -left-8 opacity-20"
+        className="absolute inset-0 m-auto opacity-[0.18]"
       />
 
       <div className="container-tight relative">
         <Reveal>
-          <Eyebrow marker="04" variant="inverse">Clientes reales</Eyebrow>
-          <h2 className="mt-6 max-w-2xl font-display font-semibold tracking-tight text-fluid-h2">
-            Quienes ya facturan, ya arriendan
-          </h2>
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <div className="max-w-2xl">
+              <Eyebrow marker="04" variant="inverse">Clientes reales</Eyebrow>
+              <h2 className="mt-6 font-display font-semibold tracking-tight text-fluid-h2 text-white">
+                Quienes ya facturan, ya arriendan
+              </h2>
+              <p className="mt-5 text-lg text-white/65">
+                Profesionales que decidieron quedarse con su capital y dejar que el auto pague impuestos.
+              </p>
+            </div>
+            <div className="hidden md:flex items-baseline gap-3 border-l border-white/15 pl-6">
+              <span className="num-display text-fluid-stat-sm font-semibold text-lime-400 tabular-nums leading-none">
+                $176K
+              </span>
+              <span className="text-xs uppercase tracking-[0.14em] text-white/45 max-w-[8rem] leading-tight">
+                deducción anual<br />promedio PFAE
+              </span>
+            </div>
+          </div>
         </Reveal>
 
-        <div className="mt-16 grid gap-6 md:grid-cols-3">
-          {TESTIMONIALS.map((t, i) => (
-            <Reveal key={t.name} delay={i * 100}>
-              <Testimonial {...t} />
-            </Reveal>
-          ))}
+        <div className="mt-16 grid gap-6 lg:grid-cols-12">
+          {/* Featured */}
+          <Reveal className="lg:col-span-7" delay={80}>
+            <FeaturedTestimonial {...featured} />
+          </Reveal>
+
+          {/* Secondary */}
+          <div className="lg:col-span-5 grid gap-6">
+            {rest.map((t, i) => (
+              <Reveal key={t.name} delay={160 + i * 100}>
+                <CompactTestimonial {...t} />
+              </Reveal>
+            ))}
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-function Testimonial({
+function FeaturedTestimonial({
   quote, name, role, car, deducido, photo,
 }: { quote: string; name: string; role: string; car: string; deducido: string; photo: string }) {
   return (
-    <article className="group flex h-full flex-col rounded-xl bg-white/[0.04] ring-1 ring-white/10 backdrop-blur transition-all duration-500 hover:bg-white/[0.07] hover:ring-white/20">
-      <div className="aspect-[4/3] overflow-hidden rounded-t-xl">
+    <article className="group relative h-full overflow-hidden rounded-xl ring-1 ring-white/10 bg-white/[0.03]">
+      <div className="grid h-full md:grid-cols-[5fr_7fr]">
+        <div className="relative aspect-[4/5] md:aspect-auto overflow-hidden">
+          <img
+            src={`${BASE}img/persona-${photo}.webp`}
+            alt={name}
+            className="h-full w-full object-cover transition-all duration-700 group-hover:scale-[1.04]"
+            loading="lazy"
+            decoding="async"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-forest-950/60 via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-forest-950/30" />
+        </div>
+        <div className="flex flex-col justify-between p-7 md:p-9">
+          <div>
+            <span aria-hidden className="block text-6xl font-display leading-none text-lime-400/70">"</span>
+            <p className="mt-3 font-display text-2xl leading-[1.25] tracking-tight text-white md:text-3xl">
+              {quote}
+            </p>
+          </div>
+          <div className="mt-8 flex items-end justify-between gap-4 border-t border-white/10 pt-6">
+            <div className="min-w-0">
+              <p className="font-display text-lg font-semibold tracking-tight text-white truncate">{name}</p>
+              <p className="mt-0.5 text-sm text-white/60 truncate">{role}</p>
+              <p className="mt-1 font-mono text-[10px] tracking-[0.14em] text-white/40 uppercase">{car}</p>
+            </div>
+            <div className="flex flex-col items-end flex-shrink-0">
+              <span className="num-display text-2xl font-semibold text-lime-400 tabular-nums leading-none">
+                {deducido}
+              </span>
+              <span className="mt-1.5 font-mono text-[9px] tracking-[0.14em] text-white/40 uppercase">
+                deducido al año
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function CompactTestimonial({
+  quote, name, role, car, deducido, photo,
+}: { quote: string; name: string; role: string; car: string; deducido: string; photo: string }) {
+  return (
+    <article className="group relative flex gap-5 overflow-hidden rounded-xl ring-1 ring-white/10 bg-white/[0.03] p-5 transition-all duration-500 hover:ring-white/20 hover:bg-white/[0.05]">
+      <div className="flex-shrink-0">
         <img
-          src={`${BASE}img/persona-${photo}.webp`}
+          src={`${BASE}img/persona-${photo}-sm.webp`}
           alt={name}
-          className="h-full w-full object-cover saturate-[0.95] transition-all duration-700 group-hover:scale-[1.03] group-hover:saturate-100"
+          className="h-20 w-20 rounded-full object-cover ring-1 ring-white/15"
           loading="lazy"
           decoding="async"
         />
       </div>
-      <div className="flex flex-1 flex-col p-7">
-        <p className="text-base leading-relaxed text-white/90">"{quote}"</p>
-        <div className="mt-6 flex items-end justify-between border-t border-white/10 pt-5">
+      <div className="flex flex-col min-w-0 flex-1">
+        <p className="text-sm leading-relaxed text-white/85 line-clamp-3">"{quote}"</p>
+        <div className="mt-3 flex items-baseline justify-between gap-3">
           <div className="min-w-0">
-            <p className="font-display font-semibold tracking-tight text-white truncate">{name}</p>
-            <p className="text-xs text-white/55 truncate">{role}</p>
-            <p className="mt-1 font-mono text-[10px] tracking-wider text-white/40 uppercase">{car}</p>
+            <p className="font-display text-sm font-semibold tracking-tight text-white truncate">{name}</p>
+            <p className="font-mono text-[9px] tracking-[0.14em] text-white/40 uppercase truncate">{role} · {car}</p>
           </div>
-          <div className="flex flex-col items-end">
-            <span className="num-display text-lg font-semibold text-lime-400 tabular-nums leading-none">{deducido}</span>
-            <span className="mt-1 font-mono text-[9px] tracking-wider text-white/40 uppercase">deducido al año</span>
-          </div>
+          <span className="num-display text-sm font-semibold text-lime-400 tabular-nums whitespace-nowrap">
+            {deducido}
+          </span>
         </div>
       </div>
     </article>
@@ -606,5 +654,3 @@ function PilarRow({
   );
 }
 
-// Keep Pill import even if unused here (other pages still use it)
-void Pill;

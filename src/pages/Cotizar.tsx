@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { Pill } from '@/components/ui/Pill';
+import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Slider } from '@/components/ui/Slider';
 import { SegmentedControl } from '@/components/ui/SegmentedControl';
 import { IconArrowRight, IconArrowLeft, IconCheck, IconSparkle } from '@/components/ui/Icon';
@@ -126,9 +126,9 @@ export default function Cotizar() {
                             {p.label}
                           </span>
                           {p.recommended && (
-                            <Pill variant="lime" icon={<IconSparkle size={12} />}>
-                              Maximiza deducción
-                            </Pill>
+                            <span className="inline-flex items-center gap-1 rounded-full bg-lime-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-lime-900">
+                              <IconSparkle size={10} /> Recomendado
+                            </span>
                           )}
                         </div>
                         <p className="mt-1 text-sm text-ink-600">{p.hint}</p>
@@ -426,8 +426,8 @@ function EmpresaTrack({ onBack }: { onBack: () => void }) {
     <div className="bg-bg-subtle min-h-[calc(100vh-5rem)] py-10 md:py-16">
       <div className="container-tight max-w-2xl">
         <Card variant="default" padded="lg">
-          <Pill variant="forest">Empresas / Persona moral</Pill>
-          <h1 className="mt-4 font-display text-3xl font-semibold tracking-tight text-ink-900 md:text-4xl">
+          <Eyebrow marker="—">Empresas / Persona moral</Eyebrow>
+          <h1 className="mt-5 font-display text-3xl font-semibold tracking-tight text-ink-900 md:text-4xl">
             Te asignamos un asesor dedicado
           </h1>
           <p className="mt-3 text-ink-600 leading-relaxed">

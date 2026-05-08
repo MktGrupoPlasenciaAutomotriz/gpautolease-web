@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
 import { Card } from '@/components/ui/Card';
-import { Pill } from '@/components/ui/Pill';
+import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Button } from '@/components/ui/Button';
+import { HairlineDivider } from '@/components/ui/DataViz';
 import {
   IconArrowRight,
   IconMoneyCircle,
@@ -16,25 +17,35 @@ import { fmtMXN } from '@/lib/format';
 export default function PorQueArrendar() {
   return (
     <div className="bg-white">
-      <section className="bg-gradient-to-br from-bg-muted via-white to-forest-50/40 py-16 md:py-24">
-        <div className="container-tight max-w-4xl">
-          <Pill variant="lime">El caso fiscal</Pill>
-          <h1 className="mt-4 font-display text-4xl font-semibold tracking-tight text-ink-900 md:text-6xl leading-[1.05]">
+      <section className="relative bg-white py-16 md:py-24 border-b border-ink-200/70 overflow-hidden">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-[0.04] [background-image:linear-gradient(to_right,#1d1d1b_1px,transparent_1px),linear-gradient(to_bottom,#1d1d1b_1px,transparent_1px)] [background-size:80px_80px]"
+        />
+        <div className="container-tight relative max-w-4xl">
+          <Eyebrow marker="01">El caso fiscal</Eyebrow>
+          <h1 className="mt-6 font-display font-semibold tracking-tight text-ink-900 text-fluid-h1 leading-[1.0]">
             Por qué arrendar conviene si{' '}
-            <span className="text-forest">facturas</span>
+            <span className="relative inline">
+              <span className="relative z-10 text-forest">facturas</span>
+              <span aria-hidden className="absolute inset-x-0 bottom-1 h-[0.18em] bg-lime-300/70 -z-0" />
+            </span>
+            <span className="text-ink-900">.</span>
           </h1>
-          <p className="mt-6 max-w-2xl text-xl leading-relaxed text-ink-600">
+          <p className="mt-7 max-w-2xl text-xl leading-relaxed text-ink-700">
             La matemática que tu contador ya conoce, explicada claro. Sin lenguaje
             legal. Con ejemplos numéricos reales.
           </p>
         </div>
       </section>
 
-      <section className="py-16 md:py-24">
+      <section className="py-20 md:py-28">
         <div className="container-tight max-w-5xl">
-          <h2 className="font-display text-3xl font-semibold tracking-tight text-ink-900 md:text-4xl">
-            Los 4 puntos que importan
+          <Eyebrow marker="02">Los puntos que importan</Eyebrow>
+          <h2 className="mt-6 font-display font-semibold tracking-tight text-ink-900 text-fluid-h2">
+            Cuatro razones, cero magia
           </h2>
+          <HairlineDivider className="mt-10" />
           <div className="mt-12 space-y-12">
             <BulletPoint
               n="01"
@@ -92,13 +103,14 @@ export default function PorQueArrendar() {
         </div>
       </section>
 
-      <section className="bg-bg-subtle py-16 md:py-24">
+      <section className="bg-bg-subtle py-20 md:py-28 border-y border-ink-200/70">
         <div className="container-tight max-w-5xl">
-          <h2 className="font-display text-3xl font-semibold tracking-tight text-ink-900 md:text-4xl">
-            Mitos vs realidades
+          <Eyebrow marker="03">Mitos vs realidades</Eyebrow>
+          <h2 className="mt-6 font-display font-semibold tracking-tight text-ink-900 text-fluid-h2">
+            Lo que escuchas vs cómo funciona
           </h2>
-          <p className="mt-3 text-ink-600">
-            Lo que escuchas en internet vs cómo funciona en realidad.
+          <p className="mt-4 text-ink-600">
+            Seis mitos comunes desmontados con la cláusula real del contrato.
           </p>
 
           <div className="mt-10 grid gap-4 md:grid-cols-2">

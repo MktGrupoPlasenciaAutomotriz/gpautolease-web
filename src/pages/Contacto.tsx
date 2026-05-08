@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Card } from '@/components/ui/Card';
-import { Pill } from '@/components/ui/Pill';
+import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { IconArrowRight, IconWhatsApp } from '@/components/ui/Icon';
@@ -11,11 +11,11 @@ export default function Contacto() {
   return (
     <div className="bg-bg-subtle min-h-[calc(100vh-5rem)] py-12 md:py-20">
       <div className="container-tight max-w-5xl">
-        <Pill variant="forest">Contacto</Pill>
-        <h1 className="mt-4 font-display text-4xl font-semibold tracking-tight text-ink-900 md:text-5xl">
+        <Eyebrow marker="—">Contacto</Eyebrow>
+        <h1 className="mt-6 font-display font-semibold tracking-tight text-ink-900 text-fluid-h1 leading-[1.02]">
           Hablemos
         </h1>
-        <p className="mt-4 text-lg text-ink-600">
+        <p className="mt-5 text-lg text-ink-600 leading-relaxed">
           Tres formas. Tú eliges la velocidad.
         </p>
 

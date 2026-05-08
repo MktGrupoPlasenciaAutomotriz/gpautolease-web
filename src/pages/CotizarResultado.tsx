@@ -1,8 +1,8 @@
 import { useLocation, Navigate, Link } from 'react-router-dom';
 import { Card } from '@/components/ui/Card';
-import { Pill } from '@/components/ui/Pill';
+import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Button } from '@/components/ui/Button';
-import { IconArrowRight, IconDownload, IconWhatsApp, IconCheck, IconSparkle } from '@/components/ui/Icon';
+import { IconArrowRight, IconDownload, IconWhatsApp, IconCheck } from '@/components/ui/Icon';
 import { calcular, type TipoPersona } from '@/lib/calc';
 import { fmtMXN } from '@/lib/format';
 import { MARCAS } from '@/data/marcas';
@@ -59,12 +59,10 @@ export default function CotizarResultado() {
     <div className="bg-bg-subtle min-h-[calc(100vh-5rem)] py-10 md:py-16">
       <div className="container-tight max-w-5xl">
         <div className="mb-6 flex items-center justify-between">
-          <Link to="/cotizar" className="text-sm text-ink-500 hover:text-forest">
+          <Link to="/cotizar" className="text-sm text-ink-500 hover:text-forest transition-colors">
             ← Editar parámetros
           </Link>
-          <Pill variant="lime" icon={<IconSparkle size={12} />}>
-            Cotización lista
-          </Pill>
+          <Eyebrow marker="✓" variant="lime">Cotización lista</Eyebrow>
         </div>
 
         <h1 className="font-display text-3xl font-semibold tracking-tight text-ink-900 md:text-5xl">

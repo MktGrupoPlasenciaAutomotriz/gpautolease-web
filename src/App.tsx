@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { MobileStickyCTA } from '@/components/layout/MobileStickyCTA';
 import Home from '@/pages/Home';
 import Cotizar from '@/pages/Cotizar';
 import CotizarResultado from '@/pages/CotizarResultado';
@@ -53,6 +54,7 @@ export default function App() {
           </Routes>
         </main>
         <Footer />
+        <MobileStickyCTA />
       </div>
     </BrowserRouter>
   );
