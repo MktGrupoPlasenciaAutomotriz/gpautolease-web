@@ -296,10 +296,10 @@ function MarcasSection() {
 
 function ProcesoSection() {
   const steps = [
-    { n: '01', dur: '60 segundos', title: 'Cotizas', body: 'Eliges auto, plazo, inicial. Ves la matemática completa con desglose fiscal.' },
-    { n: '02', dur: '~10 minutos', title: 'Subes documentos', body: 'Lista clara según tu tipo de persona. Drag-and-drop directo en el navegador.' },
-    { n: '03', dur: 'hasta 48 hrs', title: 'Aprobamos', body: 'Análisis crediticio + propuesta firmada. Te avisamos por WhatsApp en cada hito.' },
-    { n: '04', dur: 'cuando tú', title: 'Manejas', body: 'Firma digital o presencial. Entrega del auto donde te convenga.' },
+    { n: '01', dur: '60s', title: 'Cotizas', body: 'Eliges auto, plazo, inicial. Ves la matemática completa con desglose fiscal.', img: 'proceso-1-cotizas-sm' },
+    { n: '02', dur: '~10 min', title: 'Subes documentos', body: 'Lista clara según tipo de persona. Drag-and-drop directo en el navegador.', img: 'proceso-2-documentos-sm' },
+    { n: '03', dur: '<48 hrs', title: 'Aprobamos', body: 'Análisis crediticio + propuesta firmada. Te avisamos por WhatsApp en cada hito.', img: 'proceso-3-aprobamos-sm' },
+    { n: '04', dur: 'cuando tú', title: 'Manejas', body: 'Firma digital o presencial. Entrega del auto donde te convenga.', img: 'proceso-4-manejas-sm' },
   ];
   return (
     <section className="bg-white py-24 md:py-32">
@@ -316,15 +316,30 @@ function ProcesoSection() {
         <div className="mt-16 grid gap-px overflow-hidden rounded-xl border border-ink-200/70 bg-ink-200/70 md:grid-cols-2 lg:grid-cols-4">
           {steps.map((s, i) => (
             <Reveal key={s.n} delay={i * 80}>
-              <div className="h-full bg-white p-7 lg:p-8">
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-xs tracking-wider text-ink-400">{s.n}</span>
-                  <span className="font-mono text-[10px] uppercase tracking-wider text-forest">{s.dur}</span>
+              <div className="group h-full bg-white flex flex-col">
+                <div className="relative aspect-[4/3] overflow-hidden bg-bg-subtle">
+                  <img
+                    src={`${BASE}img/${s.img}.webp`}
+                    alt={s.title}
+                    className="h-full w-full object-cover transition-all duration-700 group-hover:scale-[1.04]"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
+                    <span className="rounded-md bg-white/95 backdrop-blur-sm px-2 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-700 ring-1 ring-ink-200/50">
+                      {s.n}
+                    </span>
+                    <span className="rounded-md bg-forest/95 backdrop-blur-sm px-2 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-white">
+                      {s.dur}
+                    </span>
+                  </div>
                 </div>
-                <h3 className="mt-8 font-display text-2xl font-semibold tracking-tight text-ink-900">
-                  {s.title}
-                </h3>
-                <p className="mt-3 text-sm leading-relaxed text-ink-600">{s.body}</p>
+                <div className="flex-1 p-6 lg:p-7">
+                  <h3 className="font-display text-xl font-semibold tracking-tight text-ink-900">
+                    {s.title}
+                  </h3>
+                  <p className="mt-2.5 text-sm leading-relaxed text-ink-600">{s.body}</p>
+                </div>
               </div>
             </Reveal>
           ))}
