@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import { Card } from '@/components/ui/Card';
 import { Eyebrow } from '@/components/ui/Eyebrow';
 import { Button } from '@/components/ui/Button';
+
+const BASE = import.meta.env.BASE_URL ?? '/';
 import { IconArrowRight, IconCheck, IconWhatsApp } from '@/components/ui/Icon';
 
 const PRINCIPIOS = [
@@ -34,26 +36,50 @@ const PRINCIPIOS = [
 export default function Nosotros() {
   return (
     <div className="bg-white">
-      <section className="relative bg-white py-16 md:py-24 border-b border-ink-200/70 overflow-hidden">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-[0.04] [background-image:linear-gradient(to_right,#1d1d1b_1px,transparent_1px),linear-gradient(to_bottom,#1d1d1b_1px,transparent_1px)] [background-size:80px_80px]"
-        />
-        <div className="container-tight relative max-w-4xl">
-          <Eyebrow marker="—">Quiénes somos</Eyebrow>
-          <h1 className="mt-6 font-display font-semibold tracking-tight text-ink-900 text-fluid-h1 leading-[1.0]">
-            Una arrendadora{' '}
-            <span className="relative inline">
-              <span className="relative z-10 text-forest">que entiende</span>
-              <span aria-hidden className="absolute inset-x-0 bottom-1 h-[0.18em] bg-lime-300/70 -z-0" />
-            </span>{' '}
-            a quien factura.
-          </h1>
-          <p className="mt-6 max-w-2xl text-xl leading-relaxed text-ink-600">
-            GP Autolease nació para hacer que el arrendamiento sea rápido, claro y
-            humano para profesionales independientes y empresas. Sin lenguaje
-            corporativo. Sin procesos diseñados para ocultar.
-          </p>
+      <section className="relative bg-white border-b border-ink-200/70 overflow-hidden">
+        <div className="container-tight pt-16 md:pt-20 pb-12 md:pb-16">
+          <div className="max-w-4xl">
+            <Eyebrow marker="—">Quiénes somos</Eyebrow>
+            <h1 className="mt-6 font-display font-semibold tracking-tight text-ink-900 text-fluid-h1 leading-[1.0]">
+              Una arrendadora{' '}
+              <span className="relative inline">
+                <span className="relative z-10 text-forest">que entiende</span>
+                <span aria-hidden className="absolute inset-x-0 bottom-1 h-[0.18em] bg-lime-300/70 -z-0" />
+              </span>{' '}
+              a quien factura.
+            </h1>
+            <p className="mt-6 max-w-2xl text-xl leading-relaxed text-ink-700">
+              GP Autolease nació para hacer que el arrendamiento sea rápido, claro y
+              humano para profesionales independientes y empresas. Sin lenguaje
+              corporativo. Sin procesos diseñados para ocultar.
+            </p>
+          </div>
+        </div>
+
+        {/* Editorial cover image */}
+        <div className="container-tight pb-16 md:pb-20">
+          <div className="relative overflow-hidden rounded-2xl ring-1 ring-ink-200/70">
+            <img
+              src={`${BASE}img/hero-nosotros.webp`}
+              alt="Espacio de trabajo de GP Autolease — interior moderno con luz natural"
+              className="h-[280px] md:h-[420px] lg:h-[480px] w-full object-cover"
+              loading="eager"
+              decoding="async"
+            />
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-forest-950/60 via-forest-950/20 to-transparent p-6 md:p-8 text-white">
+              <div className="flex flex-wrap items-end justify-between gap-4">
+                <div>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/60">Sede piloto</p>
+                  <p className="mt-1 font-display text-xl md:text-2xl font-semibold tracking-tight">Zapopan, Jalisco</p>
+                </div>
+                <div className="hidden md:block h-10 w-px bg-white/20" />
+                <div>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/60">Grupo Plasencia</p>
+                  <p className="mt-1 font-display text-xl md:text-2xl font-semibold tracking-tight">75 años en movilidad</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

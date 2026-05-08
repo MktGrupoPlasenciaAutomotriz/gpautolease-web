@@ -14,28 +14,52 @@ import {
 } from '@/components/ui/Icon';
 import { fmtMXN } from '@/lib/format';
 
+const BASE = import.meta.env.BASE_URL ?? '/';
+
 export default function PorQueArrendar() {
   return (
     <div className="bg-white">
-      <section className="relative bg-white py-16 md:py-24 border-b border-ink-200/70 overflow-hidden">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-[0.04] [background-image:linear-gradient(to_right,#1d1d1b_1px,transparent_1px),linear-gradient(to_bottom,#1d1d1b_1px,transparent_1px)] [background-size:80px_80px]"
-        />
-        <div className="container-tight relative max-w-4xl">
-          <Eyebrow marker="01">El caso fiscal</Eyebrow>
-          <h1 className="mt-6 font-display font-semibold tracking-tight text-ink-900 text-fluid-h1 leading-[1.0]">
-            Por qué arrendar conviene si{' '}
-            <span className="relative inline">
-              <span className="relative z-10 text-forest">facturas</span>
-              <span aria-hidden className="absolute inset-x-0 bottom-1 h-[0.18em] bg-lime-300/70 -z-0" />
-            </span>
-            <span className="text-ink-900">.</span>
-          </h1>
-          <p className="mt-7 max-w-2xl text-xl leading-relaxed text-ink-700">
-            La matemática que tu contador ya conoce, explicada claro. Sin lenguaje
-            legal. Con ejemplos numéricos reales.
-          </p>
+      <section className="relative bg-white border-b border-ink-200/70 overflow-hidden">
+        <div className="container-tight pt-16 md:pt-20 pb-0">
+          <div className="grid gap-12 lg:grid-cols-12 items-end">
+            <div className="lg:col-span-7 pb-16 md:pb-20">
+              <Eyebrow marker="01">El caso fiscal</Eyebrow>
+              <h1 className="mt-6 font-display font-semibold tracking-tight text-ink-900 text-fluid-h1 leading-[1.0]">
+                Por qué arrendar conviene si{' '}
+                <span className="relative inline">
+                  <span className="relative z-10 text-forest">facturas</span>
+                  <span aria-hidden className="absolute inset-x-0 bottom-1 h-[0.18em] bg-lime-300/70 -z-0" />
+                </span>
+                <span className="text-ink-900">.</span>
+              </h1>
+              <p className="mt-7 max-w-xl text-xl leading-relaxed text-ink-700">
+                La matemática que tu contador ya conoce, explicada claro. Sin lenguaje
+                legal. Con ejemplos numéricos reales.
+              </p>
+            </div>
+            <div className="lg:col-span-5 relative -mb-px">
+              <div className="aspect-[4/5] lg:aspect-[3/4] overflow-hidden rounded-t-2xl ring-1 ring-ink-200/70">
+                <img
+                  src={`${BASE}img/hero-por-que.webp`}
+                  alt="Profesional revisando su cotización en una oficina con luz natural"
+                  className="h-full w-full object-cover"
+                  loading="eager"
+                  decoding="async"
+                />
+              </div>
+              <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between gap-3 rounded-xl bg-white/95 backdrop-blur-sm ring-1 ring-ink-200/70 px-4 py-3">
+                <div>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-ink-500">PFAE típico</p>
+                  <p className="num-display mt-0.5 text-base font-semibold text-forest tabular-nums">$176,400</p>
+                </div>
+                <div className="h-8 w-px bg-ink-200" />
+                <div>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-ink-500">Anual deducido</p>
+                  <p className="num-display mt-0.5 text-base font-semibold text-ink-900 tabular-nums">36 meses</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
