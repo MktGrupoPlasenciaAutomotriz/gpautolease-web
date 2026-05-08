@@ -24,9 +24,12 @@ function ScrollToTop() {
   return null;
 }
 
+// Strip trailing slash; React Router's basename should not end with one.
+const basename = (import.meta.env.BASE_URL ?? '/').replace(/\/$/, '');
+
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={basename || '/'}>
       <ScrollToTop />
       <div className="flex min-h-screen flex-col">
         <Header />

@@ -6,10 +6,11 @@ interface LogoProps {
   showTagline?: boolean;
 }
 
+const base = import.meta.env.BASE_URL ?? '/';
 const srcMap = {
-  color: '/logo.svg',
-  white: '/logo-white.svg',
-  black: '/logo-black.svg',
+  color: `${base}logo.svg`,
+  white: `${base}logo-white.svg`,
+  black: `${base}logo-black.svg`,
 };
 
 export function Logo({ variant = 'color', className, showTagline = false }: LogoProps) {
