@@ -2,9 +2,9 @@ import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Slider } from '@/components/ui/Slider';
 import { SegmentedControl } from '@/components/ui/SegmentedControl';
-import { Button } from '@/components/ui/Button';
 import { Tooltip } from '@/components/ui/Tooltip';
-import { IconArrowRight, IconSparkle } from '@/components/ui/Icon';
+import { HairlineDivider } from '@/components/ui/DataViz';
+import { IconArrowRight } from '@/components/ui/Icon';
 import { calcular } from '@/lib/calc';
 import { fmtMXN } from '@/lib/format';
 import { useCountUp } from '@/lib/hooks';
@@ -19,10 +19,14 @@ const PLAZOS = [
 
 interface Props {
   className?: string;
-  variant?: 'hero' | 'standalone';
 }
 
-export function HeroCalculator({ className, variant = 'hero' }: Props) {
+/**
+ * Fintech-style quote panel. Sharper geometry, dominant numbers, hairline
+ * dividers. Numbers smoothly count up. The header uses a "live" pulse to
+ * communicate that calculations update on input change.
+ */
+export function HeroCalculator({ className }: Props) {
   const [precio, setPrecio] = useState(580_000);
   const [iniPct, setIniPct] = useState(0.10);
   const [plazo, setPlazo] = useState(36);
@@ -40,44 +44,38 @@ export function HeroCalculator({ className, variant = 'hero' }: Props) {
   );
 
   const deduccionAnual = result.arrendamiento.isrAhorradoAnual + result.arrendamiento.ivaAcreditableAnual;
-  // Capital libre = lo que NO sale de tu negocio comparado con comprar a contado.
-  // Es la métrica honesta: arrendamiento conserva tu capital, comprar lo inmoviliza.
   const capitalLibre = precio - result.pagoInicialMonto;
 
   const animMensualidad = useCountUp(result.arrendamiento.mensualidad, 500);
   const animDeduccion = useCountUp(deduccionAnual, 500);
   const animCapitalLibre = useCountUp(capitalLibre, 500);
 
-  const isInverse = variant === 'hero';
-
   return (
     <div
       className={cn(
-        'group relative overflow-hidden rounded-2xl',
-        isInverse
-          ? 'bg-white text-ink-900 shadow-elevated ring-1 ring-ink-100'
-          : 'bg-white border border-ink-200',
+        'group relative overflow-hidden bg-white text-ink-900',
+        'rounded-[14px] ring-1 ring-ink-200/70 shadow-[0_24px_60px_-20px_rgb(29_29_27_/_0.18),0_8px_24px_-12px_rgb(29_29_27_/_0.08)]',
         className,
       )}
     >
-      {/* Soft gradient corner accent */}
-      <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-lime-300/30 blur-3xl" />
-      <div className="pointer-events-none absolute -left-12 -bottom-12 h-48 w-48 rounded-full bg-forest-100/60 blur-3xl" />
+      {/* Subtle top brand strip */}
+      <div className="h-1 bg-gradient-to-r from-forest via-forest-600 to-lime-500" />
 
-      <div className="relative p-6 md:p-8">
-        <div className="mb-1 flex items-center justify-between gap-3">
-          <h3 className="font-display text-lg font-semibold tracking-tight text-ink-900">
-            Calcula tu mensualidad
-          </h3>
-          <span className="rounded-full bg-forest-50 px-2.5 py-1 text-[11px] font-semibold tracking-wide text-forest">
-            PFAE · 85% uso
-          </span>
+      <div className="relative px-6 pt-6 pb-7 md:px-7 md:pt-7">
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-lime-500 opacity-50" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-lime-500" />
+            </span>
+            <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-500">
+              Cotización en vivo
+            </span>
+          </div>
+          <span className="font-mono text-[10px] tracking-wider text-ink-400">PFAE · 85%</span>
         </div>
-        <p className="text-xs text-ink-500">
-          Estimación referencial. Detalle fiscal completo en el cotizador.
-        </p>
 
-        <div className="mt-6 space-y-5">
+        <div className="mt-5 space-y-5">
           <SliderRow
             label="Precio del auto"
             value={fmtMXN.format(precio)}
@@ -103,7 +101,9 @@ export function HeroCalculator({ className, variant = 'hero' }: Props) {
             maxLabel="30%"
           />
           <div>
-            <label className="mb-2 block text-sm font-medium text-ink-800">Plazo</label>
+            <label className="mb-2 block text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-500">
+              Plazo
+            </label>
             <SegmentedControl
               options={PLAZOS}
               value={plazo}
@@ -112,95 +112,89 @@ export function HeroCalculator({ className, variant = 'hero' }: Props) {
             />
           </div>
         </div>
+      </div>
 
-        {/* Resultados */}
-        <div className="mt-7 grid grid-cols-3 gap-3 rounded-xl bg-ink-50/80 p-4 ring-1 ring-ink-100">
-          <Stat
+      <HairlineDivider />
+
+      {/* Stats panel — number-dominant */}
+      <div className="bg-bg-subtle/60 px-6 py-6 md:px-7">
+        <div className="grid grid-cols-3 divide-x divide-ink-200/70">
+          <BigStat
             label="Mensualidad"
             value={fmtMXN.format(animMensualidad)}
-            subElement={
+            sub={
               <Tooltip content="Cantidad antes de IVA. El IVA del 16% que pagas mensual lo acreditas contra el IVA que cobras a tus clientes.">
                 + IVA
               </Tooltip>
             }
+            position="left"
           />
-          <Stat
+          <BigStat
             label="Deduces al año"
             value={fmtMXN.format(animDeduccion)}
-            subElement={
+            sub={
               <Tooltip content="Suma del ISR ahorrado por deducir la mensualidad como gasto y el IVA acreditable mensual. Tu contador puede ajustarlo a tu régimen específico.">
                 ISR + IVA
               </Tooltip>
             }
             accent
           />
-          <Stat
+          <BigStat
             label="Capital libre"
             value={fmtMXN.format(animCapitalLibre)}
-            subElement={
+            sub={
               <Tooltip content="Dinero que mantienes en tu negocio en lugar de inmovilizarlo en un activo que se devalúa. Comparado con comprar a contado al mismo precio.">
                 vs comprar
               </Tooltip>
             }
+            position="right"
           />
         </div>
+      </div>
 
-        <div className="mt-6 grid gap-2 sm:grid-cols-[1fr_auto]">
-          <Link to={`/cotizar?precio=${precio}&inicial=${iniPct}&plazo=${plazo}`}>
-            <Button variant="primary" size="lg" fullWidth iconRight={<IconArrowRight />}>
-              Ver cotización completa
-            </Button>
-          </Link>
-          <a
-            href={`https://wa.me/523300000000?text=${encodeURIComponent(
-              `Hola, cotizo un auto de ${fmtMXN.format(precio)} a ${plazo} meses, inicial ${Math.round(iniPct * 100)}%. ¿Me ayudan?`,
-            )}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Button variant="secondary" size="lg" fullWidth>
-              WhatsApp
-            </Button>
-          </a>
-        </div>
+      <HairlineDivider />
 
-        <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-[11px] text-ink-400">
-          <IconSparkle size={12} className="text-lime-500" />
-          Sin pedirte teléfono hasta que tú quieras.
-        </p>
+      {/* CTAs */}
+      <div className="px-6 pt-5 pb-6 md:px-7">
+        <Link
+          to={`/cotizar?precio=${precio}&inicial=${iniPct}&plazo=${plazo}`}
+          className="group/cta flex h-12 w-full items-center justify-between rounded-md bg-forest px-5 text-sm font-semibold text-white shadow-soft transition-all hover:bg-forest-700 active:scale-[0.99]"
+        >
+          <span>Ver cotización completa</span>
+          <span className="flex items-center gap-1.5 text-lime-300">
+            <span className="text-[11px] font-mono uppercase tracking-wider opacity-80">PDF</span>
+            <IconArrowRight size={18} className="transition-transform group-hover/cta:translate-x-0.5" />
+          </span>
+        </Link>
+        <a
+          href={`https://wa.me/523300000000?text=${encodeURIComponent(
+            `Hola, cotizo un auto de ${fmtMXN.format(precio)} a ${plazo} meses, inicial ${Math.round(iniPct * 100)}%. ¿Me ayudan?`,
+          )}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-2 flex h-11 w-full items-center justify-center gap-2 rounded-md text-sm font-medium text-ink-700 hover:text-forest transition-colors"
+        >
+          <span>O hablar por WhatsApp</span>
+          <IconArrowRight size={14} />
+        </a>
       </div>
     </div>
   );
 }
 
 function SliderRow({
-  label,
-  value,
-  min,
-  max,
-  step,
-  current,
-  onChange,
-  ariaLabel,
-  minLabel,
-  maxLabel,
+  label, value, min, max, step, current, onChange, ariaLabel, minLabel, maxLabel,
 }: {
-  label: string;
-  value: string;
-  min: number;
-  max: number;
-  step: number;
-  current: number;
-  onChange: (v: number) => void;
-  ariaLabel: string;
-  minLabel: string;
-  maxLabel: string;
+  label: string; value: string; min: number; max: number; step: number; current: number;
+  onChange: (v: number) => void; ariaLabel: string; minLabel: string; maxLabel: string;
 }) {
   return (
     <div>
       <div className="mb-2 flex items-baseline justify-between gap-2">
-        <label className="text-sm font-medium text-ink-800">{label}</label>
-        <span className="num-display text-lg font-semibold text-forest tabular-nums">{value}</span>
+        <label className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-500">
+          {label}
+        </label>
+        <span className="num-display text-[15px] font-semibold text-ink-900 tabular-nums">{value}</span>
       </div>
       <Slider
         value={current}
@@ -210,7 +204,7 @@ function SliderRow({
         onChange={onChange}
         ariaLabel={ariaLabel}
       />
-      <div className="mt-1 flex justify-between text-[11px] text-ink-400 tabular-nums">
+      <div className="mt-1 flex justify-between font-mono text-[10px] tracking-wider text-ink-400 tabular-nums">
         <span>{minLabel}</span>
         <span>{maxLabel}</span>
       </div>
@@ -218,29 +212,25 @@ function SliderRow({
   );
 }
 
-function Stat({
-  label,
-  value,
-  subElement,
-  accent,
+function BigStat({
+  label, value, sub, accent, position,
 }: {
-  label: string;
-  value: string;
-  subElement?: React.ReactNode;
-  accent?: boolean;
+  label: string; value: string; sub?: React.ReactNode; accent?: boolean; position?: 'left' | 'right';
 }) {
   return (
-    <div className="flex flex-col">
-      <span className="text-[10px] font-semibold uppercase tracking-wider text-ink-500">{label}</span>
+    <div className={cn('flex flex-col', position === 'left' ? 'pr-4' : position === 'right' ? 'pl-4' : 'px-4')}>
+      <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-ink-500">
+        {label}
+      </span>
       <span
         className={cn(
-          'num-display mt-1 text-base sm:text-lg font-semibold leading-tight tabular-nums',
+          'num-display mt-2 text-xl sm:text-2xl font-semibold leading-none tabular-nums',
           accent ? 'text-forest' : 'text-ink-900',
         )}
       >
         {value}
       </span>
-      {subElement && <span className="mt-0.5 text-[10px] text-ink-500">{subElement}</span>}
+      {sub && <span className="mt-1.5 text-[10px] text-ink-500">{sub}</span>}
     </div>
   );
 }

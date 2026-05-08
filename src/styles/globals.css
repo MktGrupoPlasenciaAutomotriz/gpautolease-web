@@ -27,7 +27,13 @@
 
   body {
     @apply text-base text-text;
-    font-feature-settings: 'cv11', 'ss01', 'ss03';
+    font-feature-settings: 'cv11', 'ss01', 'ss03', 'tnum' off;
+  }
+
+  /* Default tabular numerals for any element that holds money / counters */
+  .num-display, [class*="tabular-nums"], .stat-number {
+    font-feature-settings: 'tnum' on, 'cv11' on;
+    font-variant-numeric: tabular-nums;
   }
 
   h1, h2, h3, h4, h5, h6 {
