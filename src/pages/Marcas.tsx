@@ -34,15 +34,32 @@ export default function Marcas() {
   return (
     <div className="bg-bg-subtle min-h-[calc(100vh-5rem)] py-14 md:py-20">
       <div className="container-tight">
-        <div className="max-w-3xl">
-          <Eyebrow marker="—">Catálogo</Eyebrow>
-          <h1 className="mt-6 font-display font-semibold tracking-tight text-ink-900 text-fluid-h1 leading-[1.02]">
-            Las marcas que arriendas con GP Autolease
-          </h1>
-          <p className="mt-5 text-lg text-ink-600 leading-relaxed">
-            {MARCAS.length} marcas activas, +{totalModelos} modelos. Si no ves la marca o
-            modelo que buscas, mándanos un WhatsApp y la conseguimos.
-          </p>
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-12 items-end">
+          <div className="lg:col-span-6">
+            <Eyebrow marker="—">Catálogo</Eyebrow>
+            <h1 className="mt-6 font-display font-semibold tracking-tight text-ink-900 text-fluid-h1 leading-[1.02]">
+              Las marcas que arriendas con GP Autolease
+            </h1>
+            <p className="mt-5 text-lg text-ink-600 leading-relaxed max-w-xl">
+              {MARCAS.length} marcas activas, +{totalModelos} modelos. Si no ves la marca o
+              modelo que buscas, mándanos un WhatsApp y la conseguimos.
+            </p>
+          </div>
+          <div className="lg:col-span-6">
+            <div className="relative overflow-hidden rounded-2xl ring-1 ring-ink-200/70">
+              <img
+                src={`${BASE}img/hero-marcas.webp`}
+                alt="Vehículo premium en luz cinematográfica al amanecer"
+                className="aspect-[4/3] w-full object-cover"
+                loading="eager"
+                decoding="async"
+              />
+              <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between rounded-xl bg-white/95 backdrop-blur-sm ring-1 ring-ink-200/70 px-4 py-2.5">
+                <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-500">{MARCAS.length} marcas</span>
+                <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-forest">+{totalModelos} modelos</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Filtros */}
