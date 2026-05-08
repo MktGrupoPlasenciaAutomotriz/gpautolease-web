@@ -3,9 +3,11 @@ import { Link } from 'react-router-dom';
 import { Slider } from '@/components/ui/Slider';
 import { SegmentedControl } from '@/components/ui/SegmentedControl';
 import { Button } from '@/components/ui/Button';
-import { IconArrowRight } from '@/components/ui/Icon';
+import { Tooltip } from '@/components/ui/Tooltip';
+import { IconArrowRight, IconSparkle } from '@/components/ui/Icon';
 import { calcular } from '@/lib/calc';
 import { fmtMXN } from '@/lib/format';
+import { useCountUp } from '@/lib/hooks';
 import { cn } from '@/lib/cn';
 
 const PLAZOS = [
@@ -37,16 +39,23 @@ export function HeroCalculator({ className, variant = 'hero' }: Props) {
     [precio, iniPct, plazo],
   );
 
-  const ahorroVsCredito = result.credito.flujoNetoTotal - result.arrendamiento.flujoNetoTotal;
+  const deduccionAnual = result.arrendamiento.isrAhorradoAnual + result.arrendamiento.ivaAcreditableAnual;
+  // Capital libre = lo que NO sale de tu negocio comparado con comprar a contado.
+  // Es la métrica honesta: arrendamiento conserva tu capital, comprar lo inmoviliza.
+  const capitalLibre = precio - result.pagoInicialMonto;
+
+  const animMensualidad = useCountUp(result.arrendamiento.mensualidad, 500);
+  const animDeduccion = useCountUp(deduccionAnual, 500);
+  const animCapitalLibre = useCountUp(capitalLibre, 500);
 
   const isInverse = variant === 'hero';
 
   return (
     <div
       className={cn(
-        'relative overflow-hidden rounded-2xl',
+        'group relative overflow-hidden rounded-2xl',
         isInverse
-          ? 'bg-white text-ink-900 shadow-elevated'
+          ? 'bg-white text-ink-900 shadow-elevated ring-1 ring-ink-100'
           : 'bg-white border border-ink-200',
         className,
       )}
@@ -56,64 +65,43 @@ export function HeroCalculator({ className, variant = 'hero' }: Props) {
       <div className="pointer-events-none absolute -left-12 -bottom-12 h-48 w-48 rounded-full bg-forest-100/60 blur-3xl" />
 
       <div className="relative p-6 md:p-8">
-        <div className="mb-1 flex items-center justify-between">
+        <div className="mb-1 flex items-center justify-between gap-3">
           <h3 className="font-display text-lg font-semibold tracking-tight text-ink-900">
             Calcula tu mensualidad
           </h3>
-          <span className="rounded-full bg-forest-50 px-2.5 py-1 text-[11px] font-semibold text-forest tracking-wide">
+          <span className="rounded-full bg-forest-50 px-2.5 py-1 text-[11px] font-semibold tracking-wide text-forest">
             PFAE · 85% uso
           </span>
         </div>
         <p className="text-xs text-ink-500">
-          Estimación referencial. El detalle fiscal completo en el cotizador.
+          Estimación referencial. Detalle fiscal completo en el cotizador.
         </p>
 
         <div className="mt-6 space-y-5">
-          {/* Precio del auto */}
-          <div>
-            <div className="mb-2 flex items-baseline justify-between">
-              <label className="text-sm font-medium text-ink-800">Precio del auto</label>
-              <span className="num-display text-lg font-semibold text-forest">
-                {fmtMXN.format(precio)}
-              </span>
-            </div>
-            <Slider
-              value={precio}
-              min={250_000}
-              max={1_500_000}
-              step={10_000}
-              onChange={setPrecio}
-              ariaLabel="Precio del auto"
-            />
-            <div className="mt-1 flex justify-between text-[11px] text-ink-400 tabular-nums">
-              <span>$250K</span>
-              <span>$1.5M</span>
-            </div>
-          </div>
-
-          {/* Pago inicial */}
-          <div>
-            <div className="mb-2 flex items-baseline justify-between">
-              <label className="text-sm font-medium text-ink-800">Pago inicial</label>
-              <span className="num-display text-lg font-semibold text-forest">
-                {Math.round(iniPct * 100)}% · {fmtMXN.format(precio * iniPct)}
-              </span>
-            </div>
-            <Slider
-              value={iniPct * 100}
-              min={0}
-              max={30}
-              step={1}
-              onChange={(v) => setIniPct(v / 100)}
-              ariaLabel="Pago inicial porcentaje"
-            />
-            <div className="mt-1 flex justify-between text-[11px] text-ink-400 tabular-nums">
-              <span>0%</span>
-              <span>30%</span>
-            </div>
-          </div>
-
-          {/* Plazo */}
+          <SliderRow
+            label="Precio del auto"
+            value={fmtMXN.format(precio)}
+            min={250_000}
+            max={1_500_000}
+            step={10_000}
+            current={precio}
+            onChange={setPrecio}
+            ariaLabel="Precio del auto"
+            minLabel="$250K"
+            maxLabel="$1.5M"
+          />
+          <SliderRow
+            label="Pago inicial"
+            value={`${Math.round(iniPct * 100)}% · ${fmtMXN.format(precio * iniPct)}`}
+            min={0}
+            max={30}
+            step={1}
+            current={iniPct * 100}
+            onChange={(v) => setIniPct(v / 100)}
+            ariaLabel="Pago inicial porcentaje"
+            minLabel="0%"
+            maxLabel="30%"
+          />
           <div>
             <label className="mb-2 block text-sm font-medium text-ink-800">Plazo</label>
             <SegmentedControl
@@ -129,19 +117,31 @@ export function HeroCalculator({ className, variant = 'hero' }: Props) {
         <div className="mt-7 grid grid-cols-3 gap-3 rounded-xl bg-ink-50/80 p-4 ring-1 ring-ink-100">
           <Stat
             label="Mensualidad"
-            value={fmtMXN.format(result.arrendamiento.mensualidad)}
-            sub="+ IVA"
+            value={fmtMXN.format(animMensualidad)}
+            subElement={
+              <Tooltip content="Cantidad antes de IVA. El IVA del 16% que pagas mensual lo acreditas contra el IVA que cobras a tus clientes.">
+                + IVA
+              </Tooltip>
+            }
           />
           <Stat
             label="Deduces al año"
-            value={fmtMXN.format(result.arrendamiento.isrAhorradoAnual + result.arrendamiento.ivaAcreditableAnual)}
-            sub="ISR + IVA"
+            value={fmtMXN.format(animDeduccion)}
+            subElement={
+              <Tooltip content="Suma del ISR ahorrado por deducir la mensualidad como gasto y el IVA acreditable mensual. Tu contador puede ajustarlo a tu régimen específico.">
+                ISR + IVA
+              </Tooltip>
+            }
             accent
           />
           <Stat
-            label="Vs. crédito"
-            value={fmtMXN.format(Math.max(0, ahorroVsCredito))}
-            sub={`a ${plazo} meses`}
+            label="Capital libre"
+            value={fmtMXN.format(animCapitalLibre)}
+            subElement={
+              <Tooltip content="Dinero que mantienes en tu negocio en lugar de inmovilizarlo en un activo que se devalúa. Comparado con comprar a contado al mismo precio.">
+                vs comprar
+              </Tooltip>
+            }
           />
         </div>
 
@@ -164,9 +164,55 @@ export function HeroCalculator({ className, variant = 'hero' }: Props) {
           </a>
         </div>
 
-        <p className="mt-3 text-center text-[11px] text-ink-400 leading-relaxed">
-          Sin compromiso. Sin pedirte teléfono hasta que tú quieras.
+        <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-[11px] text-ink-400">
+          <IconSparkle size={12} className="text-lime-500" />
+          Sin pedirte teléfono hasta que tú quieras.
         </p>
+      </div>
+    </div>
+  );
+}
+
+function SliderRow({
+  label,
+  value,
+  min,
+  max,
+  step,
+  current,
+  onChange,
+  ariaLabel,
+  minLabel,
+  maxLabel,
+}: {
+  label: string;
+  value: string;
+  min: number;
+  max: number;
+  step: number;
+  current: number;
+  onChange: (v: number) => void;
+  ariaLabel: string;
+  minLabel: string;
+  maxLabel: string;
+}) {
+  return (
+    <div>
+      <div className="mb-2 flex items-baseline justify-between gap-2">
+        <label className="text-sm font-medium text-ink-800">{label}</label>
+        <span className="num-display text-lg font-semibold text-forest tabular-nums">{value}</span>
+      </div>
+      <Slider
+        value={current}
+        min={min}
+        max={max}
+        step={step}
+        onChange={onChange}
+        ariaLabel={ariaLabel}
+      />
+      <div className="mt-1 flex justify-between text-[11px] text-ink-400 tabular-nums">
+        <span>{minLabel}</span>
+        <span>{maxLabel}</span>
       </div>
     </div>
   );
@@ -175,28 +221,26 @@ export function HeroCalculator({ className, variant = 'hero' }: Props) {
 function Stat({
   label,
   value,
-  sub,
+  subElement,
   accent,
 }: {
   label: string;
   value: string;
-  sub?: string;
+  subElement?: React.ReactNode;
   accent?: boolean;
 }) {
   return (
     <div className="flex flex-col">
-      <span className="text-[10px] font-semibold uppercase tracking-wider text-ink-500">
-        {label}
-      </span>
+      <span className="text-[10px] font-semibold uppercase tracking-wider text-ink-500">{label}</span>
       <span
         className={cn(
-          'num-display mt-1 text-base sm:text-lg font-semibold leading-tight',
+          'num-display mt-1 text-base sm:text-lg font-semibold leading-tight tabular-nums',
           accent ? 'text-forest' : 'text-ink-900',
         )}
       >
         {value}
       </span>
-      {sub && <span className="mt-0.5 text-[10px] text-ink-500">{sub}</span>}
+      {subElement && <span className="mt-0.5 text-[10px] text-ink-500">{subElement}</span>}
     </div>
   );
 }

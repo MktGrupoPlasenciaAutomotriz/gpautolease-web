@@ -115,6 +115,12 @@ export default {
         '5xl': ['3rem', { lineHeight: '3.25rem', letterSpacing: '-0.025em' }],
         '6xl': ['3.75rem', { lineHeight: '4rem', letterSpacing: '-0.03em' }],
         '7xl': ['4.5rem', { lineHeight: '4.75rem', letterSpacing: '-0.035em' }],
+        // Fluid display scale — scales smoothly across viewports
+        'fluid-h1': ['clamp(2.5rem, 5.5vw + 1rem, 5.75rem)', { lineHeight: '1.02', letterSpacing: '-0.035em' }],
+        'fluid-h2': ['clamp(2rem, 3.5vw + 1rem, 3.75rem)', { lineHeight: '1.08', letterSpacing: '-0.025em' }],
+        'fluid-h3': ['clamp(1.5rem, 1.6vw + 1rem, 2.5rem)', { lineHeight: '1.15', letterSpacing: '-0.018em' }],
+        'fluid-stat': ['clamp(2rem, 4vw + 0.5rem, 4rem)', { lineHeight: '1', letterSpacing: '-0.03em' }],
+        'fluid-stat-sm': ['clamp(1.5rem, 2vw + 0.75rem, 2.5rem)', { lineHeight: '1.05', letterSpacing: '-0.02em' }],
       },
       spacing: {
         '4.5': '1.125rem',
